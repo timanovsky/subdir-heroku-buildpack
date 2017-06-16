@@ -22,4 +22,7 @@ if [ -f $ENV_DIR/BUILDPACK_PATH ]; then
 	fi
 fi
 
+echo "BUILDPACK_PATH is undefined"
+exit 1
+
 
