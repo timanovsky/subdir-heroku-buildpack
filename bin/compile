@@ -9,23 +9,22 @@ BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 echo "BUILD_DIR: $BUILD_DIR"
 echo "CACHE_DIR: $CACHE_DIR"
 echo "ENV_DIR: $ENV_DIR"
-echo "BP_DIR: $BP_DIR"
-ls $ENV_DIR
+# echo "BP_DIR: $BP_DIR"
+# ls $ENV_DIR
 
 if [ -f $ENV_DIR/BUILDPACK_PATH ]; then
 	BUILDPACK_PATH=`cat $ENV_DIR/BUILDPACK_PATH`
-	echo "-----> Subdir buildpack in $BUILDPACK_PATH"
 	if [ -d $BUILD_DIR/$BUILDPACK_PATH ]; then
 		echo "-----> Subdir buildpack in $BUILDPACK_PATH"
 		echo "       creating cache: $CACHE_DIR"
 		mkdir -p $CACHE_DIR
 		echo "       moving working dir: $BUILDPACK_PATH to cache"
 		TMP_DIR=`mktemp -d $CACHE_DIR/subdirXXXXX`
-	 	cp -Rv $BUILD_DIR/$BUILDPACK_PATH/ $TMP_DIR
+	 	cp -Rv $BUILD_DIR/$BUILDPACK_PATH/. $TMP_DIR/
 		rm -rfv $BUILD_DIR
 		echo "       recreating $BUILD_DIR"
 		mkdir -p $BUILD_DIR
-		cp -Rv $TMP_DIR/ $BUILD_DIR/
+		cp -Rv $TMP_DIR/. $BUILD_DIR/
 		ls $BUILD_DIR
 		exit 0
 	fi
