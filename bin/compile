@@ -4,10 +4,12 @@
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
+BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
 echo "BUILD_DIR: $BUILD_DIR"
 echo "CACHE_DIR: $CACHE_DIR"
 echo "ENV_DIR: $ENV_DIR"
+echo "BP_DIR: $BP_DIR"
 ls $ENV_DIR
 
 if [ -f $ENV_DIR/BUILDPACK_PATH ]; then
@@ -19,10 +21,11 @@ if [ -f $ENV_DIR/BUILDPACK_PATH ]; then
 		mkdir -p $CACHE_DIR
 		echo "       moving working dir: $BUILDPACK_PATH to cache"
 		TMP_DIR=`mktemp -d $CACHE_DIR/subdirXXXXX`
-	 	cp -R $BUILD_DIR/$BUILDPACK_PATH/ $TMP_DIR
-		rm -rf $BUILD_DIR
+	 	cp -Rv $BUILD_DIR/$BUILDPACK_PATH/ $TMP_DIR
+		rm -rfv $BUILD_DIR
+		echo "       recreating $BUILD_DIR"
 		mkdir -p $BUILD_DIR
-		cp -R $TMP_DIR/ $BUILD_DIR/
+		cp -Rv $TMP_DIR/ $BUILD_DIR/
 		ls $BUILD_DIR
 		exit 0
 	fi
