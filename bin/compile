@@ -18,14 +18,18 @@ if [ -f $ENV_DIR/BUILDPACK_PATH ]; then
 		echo "-----> Subdir buildpack in $BUILDPACK_PATH"
 		echo "       creating cache: $CACHE_DIR"
 		mkdir -p $CACHE_DIR
-		echo "       moving working dir: $BUILDPACK_PATH to cache"
 		TMP_DIR=`mktemp -d $CACHE_DIR/subdirXXXXX`
-	 	cp -Rv $BUILD_DIR/$BUILDPACK_PATH/. $TMP_DIR/
-		rm -rfv $BUILD_DIR
+		echo "       created tmp dir: $TMP_DIR"
+		echo "       moving working dir: $BUILDPACK_PATH to cache"
+	 	cp -R $BUILD_DIR/$BUILDPACK_PATH/. $TMP_DIR/
+	 	echo "       cleaning build dir"
+		rm -rf $BUILD_DIR
 		echo "       recreating $BUILD_DIR"
 		mkdir -p $BUILD_DIR
+		echo "       copying preserver work dir from cache to build dir"
 		cp -Rv $TMP_DIR/. $BUILD_DIR/
-		ls $BUILD_DIR
+		echo "       cleaning tmp dir"
+		rm -rfv $TMP_DIR
 		exit 0
 	fi
 fi
