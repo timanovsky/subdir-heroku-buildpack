@@ -11,20 +11,20 @@ echo "ENV_DIR: $ENV_DIR"
 ls $ENV_DIR
 
 if [ -f $ENV_DIR/BUILDPACK_PATH ]; then
-	BUILDPACK_PATH =`cat $ENV_DIR/BUILDPACK_PATH`
+	BUILDPACK_PATH=`cat $ENV_DIR/BUILDPACK_PATH`
 	echo "-----> Subdir buildpack in $BUILDPACK_PATH"
 	if [ -d $BUILD_DIR/$BUILDPACK_PATH ]; then
 		echo "-----> Subdir buildpack in $BUILDPACK_PATH"
 		echo "       creating cache: $CACHE_DIR"
-	 	mkdir -p $CACHE_DIR
+		mkdir -p $CACHE_DIR
 		echo "       moving working dir: $BUILDPACK_PATH to cache"
-	 	TMP_DIR = `mktemp -d $CACHE_DIR/subdirXXXXX`
+		TMP_DIR=`mktemp -d $CACHE_DIR/subdirXXXXX`
 	 	cp -R $BUILD_DIR/$BUILDPACK_PATH/ $TMP_DIR
-	 	rm -rf $BUILD_DIR
-	 	mkdir -p $BUILD_DIR
-	 	cp -R $TMP_DIR/ $BUILD_DIR/
-	 	ls $BUILD_DIR
-	 	exit 0
+		rm -rf $BUILD_DIR
+		mkdir -p $BUILD_DIR
+		cp -R $TMP_DIR/ $BUILD_DIR/
+		ls $BUILD_DIR
+		exit 0
 	fi
 fi
 
