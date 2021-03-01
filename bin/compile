@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
+# Ensure wildcards in globs match dotfiles too.
+shopt -s dotglob
+
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
@@ -16,9 +19,7 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 		echo "       moving working dir: $PROJECT_PATH to $TMP_DIR"
 		cp -R $BUILD_DIR/$PROJECT_PATH/. $TMP_DIR/
 	 	echo "       cleaning build dir $BUILD_DIR"
-		rm -rf $BUILD_DIR
-		echo "       recreating $BUILD_DIR"
-		mkdir -p $BUILD_DIR
+		rm -rf $BUILD_DIR/*
 		echo "       copying preserved work dir from cache $TMP_DIR to build dir $BUILD_DIR"
 		cp -R $TMP_DIR/. $BUILD_DIR/
 		echo "       cleaning tmp dir $TMP_DIR"
