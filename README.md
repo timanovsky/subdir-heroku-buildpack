@@ -4,10 +4,11 @@ Add as a first buildpack in the chain. Set `PROJECT_PATH` environment variable t
 
 # How to use:
 1. `heroku buildpacks:clear` if necessary
-2. `heroku buildpacks:set https://github.com/timanovsky/subdir-heroku-buildpack`
-3. `heroku buildpacks:add heroku/nodejs` or whatever buildpack you need for your application
-4. `heroku config:set PROJECT_PATH=projects/nodejs/frontend` pointing to what you want to be a project root.
-5. Deploy your project to Heroku.
+1. `heroku buildpacks:set https://github.com/timanovsky/subdir-heroku-buildpack`
+1. `heroku buildpacks:add heroku/nodejs` or whatever buildpack you need for your application
+1. `heroku config:set PROJECT_PATH=projects/nodejs/frontend` pointing to what you want to be a 1roject root.
+1. `heroku config:set KEEPS=./modules/alpha*:./modules/beta*` to specify what you want to keep using GLOBIGNORE syntax.
+1. Deploy your project to Heroku.
 
 # How it works
 The buildpack takes subdirectory you configured, erases everything else, and copies that subdirectory to project root. Then normal Heroku slug compilation proceeds.
