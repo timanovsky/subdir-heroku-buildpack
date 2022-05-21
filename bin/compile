@@ -22,7 +22,7 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 	 	echo "       cleaning build dir $BUILD_DIR"
 
 		# Optionally, keep some files using GLOBIGNORE pattern
-		$KEEPS=''
+		KEEPS=''
 		if [ -f $ENV_DIR/KEEPS ]; then
 			KEEPS=`cat $ENV_DIR/KEEPS`
 			echo "       ignoring $KEEPS"
