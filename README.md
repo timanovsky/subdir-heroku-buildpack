@@ -8,6 +8,7 @@ Add as a first buildpack in the chain. Set `PROJECT_PATH` environment variable t
 3. `heroku buildpacks:add heroku/nodejs` or whatever buildpack you need for your application
 4. `heroku config:set PROJECT_PATH=projects/nodejs/frontend` pointing to what you want to be a project root.
 5. `heroku config:set KEEPS=./dependencies:./vendor` to specify what you want to keep using GLOBIGNORE syntax.
+5. `heroku config:set UNLINK=projects/nodejs/frontend/dependencies` to unlink a symlink that may be used.
 5. Deploy your project to Heroku.
 
 # How it works
