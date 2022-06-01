@@ -12,14 +12,37 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 	PROJECT_PATH=`cat $ENV_DIR/PROJECT_PATH`
 	if [ -d $BUILD_DIR/$PROJECT_PATH ]; then
 		echo "-----> Subdir buildpack in $PROJECT_PATH"
+
+		# Optionally, unlink a folder. This may be needed to keep Gemfiles, etc. unchanged.
+		UNLINK=''
+		if [ -f $ENV_DIR/UNLINK ]; then
+			UNLINK=`cat $ENV_DIR/UNLINK`
+			echo "       unlinking $BUILD_DIR/$UNLINK"
+			unlink $BUILD_DIR/$UNLINK
+		fi
+
 		echo "       creating cache: $CACHE_DIR"
 		mkdir -p $CACHE_DIR
 		TMP_DIR=`mktemp -d $CACHE_DIR/subdirXXXXX`
 		echo "       created tmp dir: $TMP_DIR"
 		echo "       moving working dir: $PROJECT_PATH to $TMP_DIR"
 		cp -R $BUILD_DIR/$PROJECT_PATH/. $TMP_DIR/
-	 	echo "       cleaning build dir $BUILD_DIR"
-		rm -rf $BUILD_DIR/*
+
+		echo "       cleaning build dir $BUILD_DIR"
+
+		# Optionally, keep some files using GLOBIGNORE pattern
+		KEEPS=''
+		if [ -f $ENV_DIR/KEEPS ]; then
+			KEEPS=`cat $ENV_DIR/KEEPS`
+			echo "       ignoring $KEEPS"
+		fi
+
+		# Enter build dir
+		cd $BUILD_DIR
+		(GLOBIGNORE=".:..:.buildpacks:$KEEPS"; rm -rf ./*)
+		cd -
+		# End entering build dir
+
 		echo "       copying preserved work dir from cache $TMP_DIR to build dir $BUILD_DIR"
 		cp -R $TMP_DIR/. $BUILD_DIR/
 		echo "       cleaning tmp dir $TMP_DIR"
@@ -30,5 +53,3 @@ fi
 
 echo "PROJECT_PATH is undefined"
 exit 1
-
-
