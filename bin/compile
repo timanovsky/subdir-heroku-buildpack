@@ -12,10 +12,8 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 	PROJECT_PATH=`cat $ENV_DIR/PROJECT_PATH`
 	if [ -d $BUILD_DIR/$PROJECT_PATH ]; then
 		echo "-----> Subdir buildpack in $PROJECT_PATH"
-		echo `pwd`
-		echo $SHELL
 
-		# Optionally, unlink a folder
+		# Optionally, unlink a folder. This may be needed to keep Gemfiles, etc. unchanged.
 		UNLINK=''
 		if [ -f $ENV_DIR/UNLINK ]; then
 			UNLINK=`cat $ENV_DIR/UNLINK`
@@ -49,9 +47,6 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 		cp -R $TMP_DIR/. $BUILD_DIR/
 		echo "       cleaning tmp dir $TMP_DIR"
 		rm -rf $TMP_DIR
-
-		echo `ls -1q $BUILD_DIR/*`
-
 		exit 0
 	fi
 fi
