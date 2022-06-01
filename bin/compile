@@ -42,14 +42,6 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 		# Enter build dir
 		cd $BUILD_DIR
 		(GLOBIGNORE=".:..:.buildpacks:$KEEPS"; rm -rf ./*)
-
-		# Optionally, remove some paths previously ignored
-		if [ -f $ENV_DIR/REMOVE_PATHS ]; then
-			REMOVE_PATHS=`cat $ENV_DIR/REMOVE_PATHS`
-			echo "       removing $REMOVE_PATHS"
-			rm -rf $REMOVE_PATHS
-		fi
-
 		cd -
 		# End entering build dir
 

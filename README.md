@@ -8,7 +8,6 @@ Add as a first buildpack in the chain. Set `PROJECT_PATH` environment variable t
 1. `heroku buildpacks:add heroku/nodejs` or whatever buildpack you need for your application
 1. `heroku config:set PROJECT_PATH=projects/nodejs/frontend` pointing to what you want to be a project root.
 1. `heroku config:set KEEPS=./dependencies:./vendor` to specify what you want to keep using GLOBIGNORE syntax.
-1. `heroku config:set REMOVE_PATHS=./dependencies/other ./vendor/other` to specify what you want to remove that was previously ignored.
 1. Deploy your project to Heroku.
 
 # How it works
