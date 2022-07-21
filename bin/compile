@@ -12,6 +12,18 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 	PROJECT_PATH=`cat $ENV_DIR/PROJECT_PATH`
 	if [ -d $BUILD_DIR/$PROJECT_PATH ]; then
 		echo "-----> Subdir buildpack in $PROJECT_PATH"
+
+		if [ -n "$(ls -A $BUILD_DIR/.profile.d 2>/dev/null)" ]; then
+			echo "       Another buildpack seems to have run"
+			echo "       before the subdir buildpack. This"
+			echo "       may cause unexpected problems."
+			echo ""
+			echo "       Ensure '$ heroku buildpacks' lists"
+			echo "       the subdir buildpack first and try"
+			echo "       again."
+			exit 1
+		fi
+
 		echo "       creating cache: $CACHE_DIR"
 		mkdir -p $CACHE_DIR
 		TMP_DIR=`mktemp -d $CACHE_DIR/subdirXXXXX`
