@@ -25,10 +25,17 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 		echo "       cleaning tmp dir $TMP_DIR"
 		rm -rf $TMP_DIR
 		exit 0
+	else
+	echo "       PROJECT_PATH is defined but does not exist"
+	echo "       expected $BUILD_DIR to contain $PROJECT_PATH"
+	echo "       but it does not."
+	echo ""
+	echo "Contents of $BUILD_DIR:"
+	echo ""
+	ls -la $BUILD_DIR
+	exit 1
 	fi
+else
+	echo "       PROJECT_PATH is undefined"
+	exit 1
 fi
-
-echo "PROJECT_PATH is undefined"
-exit 1
-
-
